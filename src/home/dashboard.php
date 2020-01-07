@@ -1,3 +1,6 @@
+<?php
+include('../../config.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,6 +22,7 @@
 
   <!-- Custom styles for this template-->
   <link href="../../css/sb-admin.css" rel="stylesheet">
+  <script data-require="jqueryui@*" data-semver="1.10.0" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/jquery-ui.js"></script>
 
 </head>
 
@@ -94,45 +98,46 @@
         <div class="card mb-3">
           <div class="card-header">
             <i class="fas fa-table"></i>
-            Data Table Example</div>
+            Data Table</div>
           <div class="card-body">
+          <form action="" class="form-inline">
+              <div class="form-group mx-sm-3 mb-2" data-provide="datepicker">
+                <span>Tanggal Awal : <input  id="datepicker_from" type="date"  class="form-control datepicker_from"> </span>
+              </div>
+              <div class="form-group mx-sm-3 mb-2" data-provide="datepicker">
+                <span>Tanggal Akhir : <input id="datepicker_to" type="date"  class="form-control datepicker_to"></span>
+              </div>
+            </form>
+            <br>
             <div class="table-responsive">
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                   <tr>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th>Office</th>
-                    <th>Age</th>
-                    <th>Start date</th>
-                    <th>Salary</th>
+                    <th class="text-center">Payment ID</th>
+                    <th class="text-center">Nama Pembeli</th>
+                    <th class="text-center">Total Final</th>
+                    <th class="text-center">Tanggal Transaksi</th>
+                    <th class="text-center">Detail</th>
                   </tr>
                 </thead>
                 <tbody>
+                    <?php
+                      $sql = 'SELECT pt.payment_id,cr.first_name as nama,SUM(pt.amount) as total_final,DATE_FORMAT(pt.payment_date,"%m/%d/%Y") as tgl_transaksi from payment as pt
+                      INNER JOIN customer as cr on cr.customer_id = pt.customer_id GROUP BY nama ORDER BY SUM(pt.amount)';
+                      $result = mysqli_query($host,$sql);
+                    ?>
                     <tr>
-                        <td>test</td>
-                        <td>test</td>
-                        <td>test</td>
-                        <td>test</td>
-                        <td>test</td>
-                        <td>test</td>
+                      <?php
+                        while($data = mysqli_fetch_assoc($result)){
+                      ?>
+                      <td class="text-center"><?php echo $data['payment_id'];?></td>
+                      <td class="text-center"><?php echo $data['nama'];?></td>
+                      <td class="text-center"><?php echo $data['total_final'];?></td>
+                      <td class="text-center"><?php echo $data['tgl_transaksi'];?></td>
+                      <td class="text-center"></td>
+
                     </tr>
-                    <tr>
-                        <td>jeje</td>
-                        <td>jeje</td>
-                        <td>jeje</td>
-                        <td>jeje</td>
-                        <td>jeje</td>
-                        <td>jeje</td>
-                    </tr>
-                    <tr>
-                        <td>null</td>
-                        <td>null</td>
-                        <td>null</td>
-                        <td>null</td>
-                        <td>null</td>
-                        <td>null</td>
-                    </tr>
+                        <?php }?>
                 </tbody>
               </table>
             </div>
