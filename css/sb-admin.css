@@ -10781,8 +10781,6 @@ body {
   right: -1rem;
   opacity: 0.4;
   font-size: 5rem;
-  -webkit-transform: rotate(15deg);
-  transform: rotate(15deg);
 }
 
 @media (min-width: 576px) {
