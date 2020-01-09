@@ -27,7 +27,7 @@ include("../../config.php");
 </head>
 
 <body id="page-top">
-
+  <!-- start copy ke semua page -->
   <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
     <a class="navbar-brand mr-1" href="dashboard.html">Magang</a>
     <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
@@ -40,21 +40,16 @@ include("../../config.php");
           <i class="fas fa-user-circle fa-fw"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-          <a class="dropdown-item" href="#">Settings</a>
-          <a class="dropdown-item" href="#">Activity Log</a>
-          <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
         </div>
       </li>
     </ul>
   </nav>
-
   <div id="wrapper">
-
     <!-- Sidebar -->
     <ul class="sidebar navbar-nav">
       <li class="nav-item active">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="dashboard.php">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span>
         </a>
@@ -65,14 +60,9 @@ include("../../config.php");
           <span>Report</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-          <h6 class="dropdown-header">Login Screens:</h6>
-          <a class="dropdown-item" href="login.html">Login</a>
-          <a class="dropdown-item" href="register.html">Register</a>
-          <a class="dropdown-item" href="forgot-password.html">Forgot Password</a>
-          <div class="dropdown-divider"></div>
-          <h6 class="dropdown-header">Other Pages:</h6>
-          <a class="dropdown-item" href="404.html">404 Page</a>
-          <a class="dropdown-item" href="blank.html">Blank Page</a>
+          <a href="../report/report_payment.php" class="dropdown-item">Payment</a>
+          <a href="../report/report_store.php" class="dropdown-item">Store</a>
+          <a href="../report/report_customer.php" class="dropdown-item">Customer</a>
         </div>
       </li>
       <li class="nav-item">
@@ -86,11 +76,10 @@ include("../../config.php");
           <span>Tables</span></a>
       </li>
     </ul>
+    <!-- end copy ke semua page -->
 
     <div id="content-wrapper">
-
       <div class="container-fluid">
-
         <!-- get pyment data -->
         <?php
           $sql = "SELECT COUNT(p2.payment_id) as Transaksi,SUM(p2.amount) as USD FROM payment as p2";
