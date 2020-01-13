@@ -61,7 +61,6 @@ include("../../config.php");
         </a>
         <div class="dropdown-menu" aria-labelledby="pagesDropdown">
           <a href="../report/report_payment.php" class="dropdown-item">Payment</a>
-          <a href="../report/report_store.php" class="dropdown-item">Store</a>
           <a href="../report/report_customer.php" class="dropdown-item">Customer</a>
         </div>
       </li>
