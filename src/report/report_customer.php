@@ -150,6 +150,6 @@ if ($_SESSION['username'] == "") {
     <script src="../../js/sb-admin.min.js"></script>
 
     <!-- Demo scripts for this page-->
-    <script src="../../js/demo/datatables-demo.js"></script>
+    <script src="../../js/demo/datatables-detail.js"></script>
 </body>
 </html>
