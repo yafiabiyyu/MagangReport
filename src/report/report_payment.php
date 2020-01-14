@@ -71,8 +71,20 @@ if ($_SESSION['username'] == "") {
                         Data Payment
                     </div>
                     <div class="card-body">
+                    <form action="">
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <lable for="dateFrom">Date From</lable>
+                                    <input type="date"  class="form-control" id="dateFrom">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <lable for="dateTo">Date To</lable>
+                                    <input type="date" class="form-control" id="dateTo">
+                                </div>
+                            </div>
+                        </form>
                         <div class="table-responsive">
-                            <table class="table table-border" id="dataTable" width="100%" cellspacing="0">
+                            <table class="table table-border display" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
                                         <th class="text-center">Payment ID</th>
@@ -85,7 +97,7 @@ if ($_SESSION['username'] == "") {
                                     <tbody>
                                     <?php
                                         $get_payment = 'select pay.payment_id,cus.customer_id,LOWER(CONCAT(cus.first_name,cus.last_name)) as nama_cus,
-                                        SUM(pay.amount) as total_belanja,DATE_FORMAT(pay.payment_date,"%m/%d/%Y") as tanggal_transaksi
+                                        SUM(pay.amount) as total_belanja,DATE_FORMAT(pay.payment_date,"%Y/%m/%d") as tanggal_transaksi
                                         from payment as pay
                                         join customer as cus on cus.customer_id = pay.customer_id GROUP BY cus.first_name,cus.last_name
                                         ORDER BY cus.last_name ASC';
@@ -145,14 +157,24 @@ if ($_SESSION['username'] == "") {
     <script src="../../vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Page level plugin JavaScript-->
-    <script src="../../vendor/chart.js/Chart.min.js"></script>
     <script src="../../vendor/datatables/jquery.dataTables.js"></script>
     <script src="../../vendor/datatables/dataTables.bootstrap4.js"></script>
 
     <!-- Custom scripts for all pages-->
     <script src="../../js/sb-admin.min.js"></script>
+    <script src="../../js/moment.js"></script>
 
     <!-- Demo scripts for this page-->
     <script src="../../js/demo/datatables-demo.js"></script>
+    <!-- <script>
+        function getDateInput(){
+            // var dateValue = document.getElementById("dateFrom").value;
+            var dateConvert = moment(document.getElementById("dateFrom").value).format('MM/DD/YYYY');
+            // console.log("Belum Format : " + dateValue);
+            console.log("Sudah Format : " + dateConvert);
+            
+            
+        }
+    </script> -->
 </body>
 </html>
