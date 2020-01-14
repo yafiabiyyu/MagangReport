@@ -60,8 +60,8 @@ include("../../config.php");
           <span>Report</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-          <a href="../report/report_payment.php" class="dropdown-item">Payment</a>
-          <a href="../report/report_customer.php" class="dropdown-item">Customer</a>
+          <a href="../report/report_payment.php" id="payment" class="dropdown-item">Payment</a>
+          <a href="../report/report_customer.php" id="customer" class="dropdown-item">Customer</a>
         </div>
       </li>
     </ul>
