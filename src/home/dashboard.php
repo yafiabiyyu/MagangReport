@@ -60,8 +60,13 @@ include("../../config.php");
           <span>Report</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-          <a href="../report/report_payment.php" id="payment" class="dropdown-item">Payment</a>
-          <a href="../report/report_customer.php" id="customer" class="dropdown-item">Customer</a>
+          <?php
+            $get_report = "select * from report";
+            $sql_result = mysqli_query($host,$get_report);
+            while ($data = mysqli_fetch_assoc($sql_result)) {
+          ?>
+          <a href="../report/report.php?id=<?php echo $data['id']; ?>" id="payment" class="dropdown-item"><?php echo $data['name_report']; ?></a>
+            <?php } ?>
         </div>
       </li>
     </ul>
