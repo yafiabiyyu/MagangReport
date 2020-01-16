@@ -18,13 +18,14 @@ if (isset($_GET['id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Report</title>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" integrity="sha384-REHJTs1r2ErKBuJB0fCK99gCYsVjwxHrSU0N7I1zl9vZbggVJXRMsv/sLlOAGb4M" crossorigin="anonymous">
+  <!-- Custom fonts for this template-->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" integrity="sha384-REHJTs1r2ErKBuJB0fCK99gCYsVjwxHrSU0N7I1zl9vZbggVJXRMsv/sLlOAGb4M" crossorigin="anonymous">
 
-  <!-- Page level plugin CSS-->
-  <link href="../../vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+<!-- Page level plugin CSS-->
+<link href="../../vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
 
-  <!-- Custom styles for this template-->
-  <link href="../../css/sb-admin.css" rel="stylesheet">
+<!-- Custom styles for this template-->
+<link href="../../css/sb-admin.css" rel="stylesheet">
 </head>
 <body id="page-top">
 <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
@@ -95,17 +96,22 @@ if (isset($_GET['id'])) {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <?php
-                                        while ($row = mysqli_fetch_row($result)) {
-                                            foreach ($row as $_column) {
-                                    ?>
-                                    <td><?php echo $_column." ";?></td>
-                                    <?php
-                                            }
-                                        }
-                                    ?>                                    
-                                </tr>
+                            <?php
+                                $test = mysqli_num_fields($result);
+                                while ($row = mysqli_fetch_array($result,MYSQL_NUM)) {
+                            ?>
+                              <tr>
+                                  <?php
+                                    for ($i=0; $i < $test; $i++) { 
+                                  ?>
+                                  <td><?php echo $row[$i]; ?></td>
+                                  <?php
+                                    }
+                                  ?>
+                              </tr>
+                              <?php
+                                }
+                                ?>
                             </tbody>
                         </table>
                     </div>
@@ -113,16 +119,21 @@ if (isset($_GET['id'])) {
             </div>
         </div>
     </div>
-  <script src="../../vendor/jquery/jquery.min.js"></script>
-  <script src="../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Core plugin JavaScript-->
-  <script src="../../vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="../../vendor/jquery-easing/jquery.easing.min.js"></script>
 
-  <!-- Page level plugin JavaScript-->
-  <script src="../../vendor/datatables/jquery.dataTables.js"></script>
+    <!-- Page level plugin JavaScript-->
+    <script src="../../vendor/chart.js/Chart.min.js"></script>
+    <script src="../../vendor/datatables/jquery.dataTables.js"></script>
+    <script src="../../vendor/datatables/dataTables.bootstrap4.js"></script>
 
-  <!-- Custom scripts for all pages-->
-  <script src="../../js/sb-admin.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="../../js/sb-admin.min.js"></script>
+
+    <!-- Demo scripts for this page-->
+    <script src="../../js/demo/datatables-detail.js"></script>
 </body>
 </html>
