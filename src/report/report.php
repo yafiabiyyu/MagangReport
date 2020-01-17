@@ -7,9 +7,7 @@ if ($_SESSION['username'] == "") {
 }
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
-    $get_query = "CALL DynamicQuery('".$id."')";
-    //$result = mysqli_query($host,$get_query);
-    //$row = mysqli_fetch_assoc($result);
+    
 }
 ?>
 <html lang="en">
@@ -60,13 +58,13 @@ if (isset($_GET['id'])) {
           <span>Report</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-          <?php
+        <?php
             $get_report = "select * from report";
-            $sql_result = mysqli_query($host,$get_report);
-            while ($data = mysqli_fetch_assoc($sql_result)) {
+             $sql_result = mssql_query($get_report);
+             while ($data = mssql_fetch_assoc($sql_result)) {
           ?>
           <a href="../report/report.php?id=<?php echo $data['id']; ?>" id="payment" class="dropdown-item"><?php echo $data['name_report']; ?></a>
-            <?php } ?>
+             <?php }?>
         </div>
       </li>
     </ul>
@@ -78,18 +76,31 @@ if (isset($_GET['id'])) {
                     Data Report
                 </div>
                 <div class="card-body">
+                    <form action="">
+                      <div class="form-row">
+                        <div class="form-group col-md-3">
+                          <lable for="dateFrom">Date From</lable>
+                          <input type="date"  class="form-control" id="dateFrom">
+                        </div>
+                        <div class="form-group col-md-3">
+                          <lable for="dateTo">Date To</lable>
+                          <input type="date" class="form-control" id="dateTo">
+                        </div>
+                      </div>
+                    </form>
                     <div class="table-responsive">
                         <table class="table table-border display" id="dataTable" width="100%" cellspacing="0">
                             <?php
-                                $result = mysqli_query($host,$get_query);
+                                $get_query = "EXEC DynamicQuery @report_id = '".$id."'";
+                                $result = mssql_query($get_query);
                             ?>
                             <thead>
                                 <tr>
                                     <?php
-                                    for ($i=0; $i < mysqli_num_fields($result); $i++) { 
-                                        $field_info = mysqli_fetch_field_direct($result,$i);
+                                    for ($i=0; $i < mssql_num_fields($result); $i++) { 
+                                        $field_info = mssql_fetch_field($result,$i);
                                     ?>
-                                    <th><?php echo $field_info->name; ?></th>
+                                    <th class="text-center"><?php echo $field_info->name; ?></th>
                                     <?php
                                     }
                                     ?>
@@ -97,14 +108,14 @@ if (isset($_GET['id'])) {
                             </thead>
                             <tbody>
                             <?php
-                                $test = mysqli_num_fields($result);
-                                while ($row = mysqli_fetch_array($result,MYSQL_NUM)) {
+                                $test = mssql_num_fields($result);
+                                while ($row = mssql_fetch_array($result,MYSQL_NUM)) {
                             ?>
                               <tr>
                                   <?php
                                     for ($i=0; $i < $test; $i++) { 
                                   ?>
-                                  <td><?php echo $row[$i]; ?></td>
+                                  <td class="text-center"><?php echo $row[$i]; ?></td>
                                   <?php
                                     }
                                   ?>
@@ -126,14 +137,14 @@ if (isset($_GET['id'])) {
     <script src="../../vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Page level plugin JavaScript-->
-    <script src="../../vendor/chart.js/Chart.min.js"></script>
     <script src="../../vendor/datatables/jquery.dataTables.js"></script>
     <script src="../../vendor/datatables/dataTables.bootstrap4.js"></script>
 
     <!-- Custom scripts for all pages-->
     <script src="../../js/sb-admin.min.js"></script>
+    <script src="../../js/moment.js"></script>
 
     <!-- Demo scripts for this page-->
-    <script src="../../js/demo/datatables-detail.js"></script>
+    <script src="../../js/demo/datatables-demo.js"></script>
 </body>
 </html>

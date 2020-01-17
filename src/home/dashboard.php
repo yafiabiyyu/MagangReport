@@ -62,11 +62,11 @@ include("../../config.php");
         <div class="dropdown-menu" aria-labelledby="pagesDropdown">
           <?php
             $get_report = "select * from report";
-            $sql_result = mysqli_query($host,$get_report);
-            while ($data = mysqli_fetch_assoc($sql_result)) {
+             $sql_result = mssql_query($get_report);
+             while ($data = mssql_fetch_assoc($sql_result)) {
           ?>
           <a href="../report/report.php?id=<?php echo $data['id']; ?>" id="payment" class="dropdown-item"><?php echo $data['name_report']; ?></a>
-            <?php } ?>
+             <?php }?>
         </div>
       </li>
     </ul>
@@ -76,12 +76,15 @@ include("../../config.php");
       <div class="container-fluid">
         <!-- get pyment data -->
         <?php
-          $sql = "SELECT COUNT(p2.payment_id) as Transaksi,SUM(p2.amount) as USD FROM payment as p2";
-          $sql2 = "SELECT COUNT(customer_id) AS cr from customer";
-          $result = mysqli_query($host,$sql);
-          $result2 = mysqli_query($host,$sql2);
-          $row = mysqli_fetch_assoc($result);
-          $row2 = mysqli_fetch_assoc($result2);
+          $sql = "select COUNT(order_id) as transaksi from sales.orders";
+          $sql2 = "select COUNT(customer_id) as customer from sales.customers";
+          $sql3 = "select COUNT(store_id) as jml_toko from sales.stores";
+          $result = mssql_query($sql);
+          $result2 = mssql_query($sql2);
+          $result3 = mssql_query($sql3);
+          $row = mssql_fetch_assoc($result);
+          $row2 = mssql_fetch_assoc($result2);
+          $row3 = mssql_fetch_assoc($result3);
 
         ?>
         <!-- Icon Cards-->
@@ -92,7 +95,7 @@ include("../../config.php");
                 <div class="card-body-icon">
                   <i class="fas fa-shopping-cart"></i>
                 </div>
-                <div class="mr-5"><?php echo round($row['Transaksi']);?> Transaksi</div>
+                <div class="mr-5"><?php echo round($row['transaksi']);?> Transaksi</div>
               </div>
               <a class="card-footer text-white clearfix small z-1" href="#">
               </a>
@@ -104,7 +107,7 @@ include("../../config.php");
                 <div class="card-body-icon">
                   <i class="fas fa-dollar-sign"></i>
                 </div>
-                <div class="mr-5"><?php echo round($row['USD']);?> USD</div>
+                <div class="mr-5"><?php echo round($row3['jml_toko']);?> Store</div>
               </div>
               <a class="card-footer text-white clearfix small z-1" href="#">
               </a>
@@ -116,7 +119,7 @@ include("../../config.php");
                 <div class="card-body-icon">
                   <i class="fas fa-users"></i>
                 </div>
-                <div class="mr-5"><?php echo round($row2['cr']);?> Customer</div>
+                <div class="mr-5"><?php echo round($row2['customer']);?> Customer</div>
               </div>
               <a class="card-footer text-white clearfix small z-1" href="#">
               </a>
@@ -190,8 +193,8 @@ include("../../config.php");
 
   <!-- script php untuk chart -->
   <?php
-    $tx_harian = mysqli_query($host,"SELECT COUNT(payment_id) as tx_hari from payment GROUP BY DAY(payment_date)");
-    $hari = mysqli_query($host,"SELECT DAY(payment_date) as hari from payment GROUP BY DAY(payment_date)")
+    $tx_harian = mssql_query("select DAY(order_date) as hari from sales.orders GROUP BY DAY(order_date)");
+    $hari = mssql_query("select COUNT(order_id) as tx_hari from sales.orders GROUP BY DAY(order_date)");
   ?>
   <script>
     // Set new default font family and font color to mimic Bootstrap's default styling
@@ -203,7 +206,7 @@ include("../../config.php");
       var myLineChart = new Chart(ctx, {
         type: 'line',
         data: {
-          labels: [<?php while ($b = mysqli_fetch_array($hari)) { echo '"' . $b['hari'] . '",';}?>],
+          labels: [<?php while ($b = mssql_fetch_array($hari)) { echo '"' . $b['hari'] . '",';}?>],
           datasets: [{
             label: "Transaksi",
             lineTension: 0.3,
@@ -216,7 +219,7 @@ include("../../config.php");
             pointHoverBackgroundColor: "rgba(2,117,216,1)",
             pointHitRadius: 50,
             pointBorderWidth: 2,
-            data: [<?php while ($b = mysqli_fetch_array($tx_harian)) { echo '"' . $b['tx_hari'] . '",';}?>],
+            data: [<?php while ($b = mssql_fetch_array($tx_harian)) { echo '"' . $b['tx_hari'] . '",';}?>],
           }],
         },
         options: {
