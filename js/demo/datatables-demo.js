@@ -4,6 +4,8 @@ $(document).ready(function () {
   // Event listener to the two range filtering inputs to redraw on input
   $('#dateFrom, #dateTo').change(function () {
       table.draw();
+      
+      
   });
 });
 
@@ -45,8 +47,8 @@ $.fn.dataTable.ext.search.push(
   function( settings, data, dataIndex ) {
       var min  = $('#dateFrom').val();
       var max  = $('#dateTo').val();
-      var createdAt = data[3] || 0; // Our date column in the table
-      console.log();
+      var createdAt = data[4] || 0; // Our date column in the table
+      //console.log(min);
       
       if  ( 
               ( min == "" || max == "" )
