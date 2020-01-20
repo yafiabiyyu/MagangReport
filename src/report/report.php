@@ -7,6 +7,7 @@ if ($_SESSION['username'] == "") {
 }
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
+    $status_id = $_GET['status'];
     
 }
 ?>
@@ -47,13 +48,13 @@ if (isset($_GET['id'])) {
     <!-- Sidebar -->
     <ul class="sidebar navbar-nav">
       <li class="nav-item active">
-        <a class="nav-link" href="dashboard.php">
+        <a class="nav-link" href="../home/dashboard.php">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span>
         </a>
       </li>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link dropdown-toggle" href="../home/dashboard.php" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fas fa-fw fa-folder"></i>
           <span>Report</span>
         </a>
@@ -62,9 +63,10 @@ if (isset($_GET['id'])) {
             $get_report = "select * from report";
              $sql_result = mssql_query($get_report);
              while ($data = mssql_fetch_assoc($sql_result)) {
+               
           ?>
-          <a href="../report/report.php?id=<?php echo $data['id']; ?>" id="payment" class="dropdown-item"><?php echo $data['name_report']; ?></a>
-             <?php }?>
+          <a href="../report/report.php?id=<?php echo $data['id'];?>&status=<?php echo $data['filter_date_status'];?>" id="payment" class="dropdown-item"><?php echo $data['name_report']; ?></a>
+             <?php $status = $data['id']; }?>
         </div>
       </li>
     </ul>
@@ -76,7 +78,7 @@ if (isset($_GET['id'])) {
                     Data Report
                 </div>
                 <div class="card-body">
-                    <form action="">
+                    <form action="" id="FilterDate">
                       <div class="form-row">
                         <div class="form-group col-md-3">
                           <lable for="dateFrom">Date From</lable>
@@ -146,5 +148,18 @@ if (isset($_GET['id'])) {
 
     <!-- Demo scripts for this page-->
     <script src="../../js/demo/datatables-demo.js"></script>
+    <script>
+    $(document).ready(function(){
+      var id = <?php echo $status_id; ?>;
+      var x = document.getElementById("FilterDate");
+      //console.log(id);
+      if (id === 1 && x.style.display === "none") {
+        x.style.display = "block";
+      }else{
+        x.style.display = "none"
+      }
+      
+    })
+    </script>
 </body>
 </html>
