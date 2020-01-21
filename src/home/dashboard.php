@@ -54,6 +54,12 @@ include("../../config.php");
           <span>Dashboard</span>
         </a>
       </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="dashboard.php">
+          <i class="fas fa-fw fa-plus-square"></i>
+          <span>Query</span>
+        </a>
+      </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fas fa-fw fa-folder"></i>
@@ -65,8 +71,8 @@ include("../../config.php");
              $sql_result = mssql_query($get_report);
              while ($data = mssql_fetch_assoc($sql_result)) {
           ?>
-          <a href="../report/report.php?id=<?php echo $data['id']; ?>" id="payment" class="dropdown-item"><?php echo $data['name_report']; ?></a>
-             <?php }?>
+           <a href="../report/report.php?id=<?php echo $data['id'];?>&status=<?php echo $data['filter_date_status'];?>" id="payment" class="dropdown-item"><?php echo $data['name_report']; ?></a>
+             <?php $status = $data['id']; }?>
         </div>
       </li>
     </ul>
