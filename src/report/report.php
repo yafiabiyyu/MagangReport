@@ -8,6 +8,9 @@ if ($_SESSION['username'] == "") {
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     $status_id = $_GET['status'];
+    $get_query = "select report_query from report where id  = '".$id."'";
+    $result_get = mssql_query($get_query);
+    $report_query = mssql_fetch_assoc($result_get);
     
 }
 ?>
@@ -93,8 +96,8 @@ if (isset($_GET['id'])) {
                     <div class="table-responsive">
                         <table class="table table-border display" id="dataTable" width="100%" cellspacing="0">
                             <?php
-                                $get_query = "EXEC DynamicQuery @report_id = '".$id."'";
-                                $result = mssql_query($get_query);
+                                // $get_query = "EXEC DynamicQuery @report_id = '".$id."'";
+                                $result = mssql_query($report_query['report_query']);
                             ?>
                             <thead>
                                 <tr>
@@ -153,10 +156,10 @@ if (isset($_GET['id'])) {
       var id = <?php echo $status_id; ?>;
       var x = document.getElementById("FilterDate");
       //console.log(id);
-      if (id === 1 && x.style.display === "none") {
-        x.style.display = "block";
+      if (id == 1) {
+        $("#FilterDate").show();
       }else{
-        x.style.display = "none"
+        $("#FilterDate").hide();
       }
       
     })
