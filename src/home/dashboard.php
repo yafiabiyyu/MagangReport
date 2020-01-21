@@ -55,7 +55,7 @@ include("../../config.php");
         </a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="dashboard.php">
+        <a class="nav-link" href="../report/add_query.php">
           <i class="fas fa-fw fa-plus-square"></i>
           <span>Query</span>
         </a>
