@@ -5,7 +5,6 @@ if ($_SESSION['username'] == "") {
     echo "<script>alert('Maaf anda belum login');
     window.location='../../index.html'</script>";
 }
-global $id;
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     $status_id = $_GET['status'];

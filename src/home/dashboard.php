@@ -1,5 +1,9 @@
 <?php
 include("../../config.php");
+if ($_SESSION['username'] == "") {
+  echo "<script>alert('Maaf anda belum login');
+  window.location='../../index.html'</script>";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -192,7 +196,7 @@ include("../../config.php");
 
   <!-- Page level plugin JavaScript-->
   <script src="../../vendor/chart.js/Chart.min.js"></script>
-  <script src="../../vendor/datatables/jquery.dataTables.js"></script>
+  
 
   <!-- Custom scripts for all pages-->
   <script src="../../js/sb-admin.min.js"></script>
@@ -212,7 +216,7 @@ include("../../config.php");
       var myLineChart = new Chart(ctx, {
         type: 'line',
         data: {
-          labels: [<?php while ($b = mssql_fetch_array($hari)) { echo '"' . $b['hari'] . '",';}?>],
+          labels: [<?php while ($b = mssql_fetch_assoc($hari)) { echo '"' . $b['hari'] . '",';}?>],
           datasets: [{
             label: "Transaksi",
             lineTension: 0.3,
@@ -225,7 +229,7 @@ include("../../config.php");
             pointHoverBackgroundColor: "rgba(2,117,216,1)",
             pointHitRadius: 50,
             pointBorderWidth: 2,
-            data: [<?php while ($b = mssql_fetch_array($tx_harian)) { echo '"' . $b['tx_hari'] . '",';}?>],
+            data: [<?php while ($b = mssql_fetch_assoc($tx_harian)) { echo '"' . $b['tx_hari'] . '",';}?>],
           }],
         },
         options: {
