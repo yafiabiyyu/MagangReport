@@ -5,13 +5,11 @@ if ($_SESSION['username'] == "") {
     echo "<script>alert('Maaf anda belum login');
     window.location='../../index.html'</script>";
 }
+global $id;
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     $status_id = $_GET['status'];
-    $get_query = "select report_query from report where id  = '".$id."'";
-    $result_get = mssql_query($get_query);
-    $report_query = mssql_fetch_assoc($result_get);
-    
+    $_SESSION['id'] = $id;
 }
 ?>
 <html lang="en">
@@ -81,23 +79,37 @@ if (isset($_GET['id'])) {
                     Data Report
                 </div>
                 <div class="card-body">
-                    <form action="" id="FilterDate">
+                    <form action="" id="FilterDate" methods="get">
                       <div class="form-row">
                         <div class="form-group col-md-3">
                           <lable for="dateFrom">Date From</lable>
-                          <input type="date"  class="form-control" id="dateFrom">
+                          <input type="date"  class="form-control" name="dateFrom" id="dateFrom">
                         </div>
                         <div class="form-group col-md-3">
                           <lable for="dateTo">Date To</lable>
-                          <input type="date" class="form-control" id="dateTo">
+                          <input type="date" class="form-control" name="dateTo" id="dateTo">
                         </div>
                       </div>
+                      <button type="submit" name="cari" class="btn btn-primary form-group">Cari</button>
+                      <button type="submit" name="reset" class="btn btn-primary form-group">Clear</button>
                     </form>
                     <div class="table-responsive">
                         <table class="table table-border display" id="dataTable" width="100%" cellspacing="0">
                             <?php
                                 // $get_query = "EXEC DynamicQuery @report_id = '".$id."'";
-                                $result = mssql_query($report_query['report_query']);
+                                //$result = mssql_query($report_query['report_query']);
+                                if (isset($_GET['cari'])) {
+                                    $date_from = $_GET['dateFrom'];
+                                    $date_to = $_GET['dateTo'];
+                                    $query = "EXEC DynamicQuery @report_id = '".$_SESSION['id']."', @datefrom = '".$date_from."', @dateto = '".$date_to."'";
+                                    $result = mssql_query($query);
+                                    
+                                }else{
+                                  $get_query = "select report_query from report where id  = '".$_SESSION['id']."'";
+                                  $result_get = mssql_query($get_query);
+                                  $report_query = mssql_fetch_assoc($result_get);
+                                  $result = mssql_query($report_query['report_query']);
+                                }
                             ?>
                             <thead>
                                 <tr>
@@ -163,6 +175,10 @@ if (isset($_GET['id'])) {
       }
       
     })
+    </script>
+    <script>
+      console.log(<?php echo $_SESSION['id']?>);
+      
     </script>
 </body>
 </html>
