@@ -2,11 +2,11 @@ $(document).ready(function () {
   var table = $('#dataTable').DataTable();
 
   // Event listener to the two range filtering inputs to redraw on input
-  $('#dateFrom, #dateTo').change(function () {
-      table.draw();
+  // $('#dateFrom, #dateTo').change(function () {
+  //     table.draw();
       
       
-  });
+  // });
 });
 
 // $.fn.dataTable.ext.search.push(
@@ -43,21 +43,21 @@ $(document).ready(function () {
 //   }
 // );
 
-$.fn.dataTable.ext.search.push(
-  function( settings, data, dataIndex ) {
-      var min  = $('#dateFrom').val();
-      var max  = $('#dateTo').val();
-      var createdAt = data[4] || 0; // Our date column in the table
-      //console.log(min);
+// $.fn.dataTable.ext.search.push(
+//   function( settings, data, dataIndex ) {
+//       var min  = $('#dateFrom').val();
+//       var max  = $('#dateTo').val();
+//       var createdAt = data[4] || 0; // Our date column in the table
+//       //console.log(min);
       
-      if  ( 
-              ( min == "" || max == "" )
-              || 
-              ( moment(createdAt).isSameOrAfter(min) && moment(createdAt).isSameOrBefore(max) ) 
-          )
-      {
-          return true;
-      }
-      return false;
-  }
-);
+//       if  ( 
+//               ( min == "" || max == "" )
+//               || 
+//               ( moment(createdAt).isSameOrAfter(min) && moment(createdAt).isSameOrBefore(max) ) 
+//           )
+//       {
+//           return true;
+//       }
+//       return false;
+//   }
+// );
