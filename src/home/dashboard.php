@@ -1,5 +1,6 @@
 <?php
 include("../../config.php");
+session_start();
 if ($_SESSION['username'] == "") {
   echo "<script>alert('Maaf anda belum login');
   window.location='../../index.html'</script>";
