@@ -60,7 +60,7 @@ if ($_SESSION['username'] == "") {
         </a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="../report/add_query.php">
+        <a class="nav-link" href="../menu_query/query_list.php">
           <i class="fas fa-fw fa-plus-square"></i>
           <span>Query</span>
         </a>
