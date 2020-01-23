@@ -53,6 +53,12 @@ if (isset($_GET['id'])) {
           <span>Dashboard</span>
         </a>
       </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="../menu_query/query_list.php">
+          <i class="fas fa-fw fa-plus-square"></i>
+          <span>Query</span>
+        </a>
+      </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="../home/dashboard.php" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fas fa-fw fa-folder"></i>
