@@ -2,6 +2,7 @@
 include("../../config.php");
 session_start();
 if ($_SESSION['username'] == "") {
+  $admin = $_SESSION['admin_status'];
   echo "<script>alert('Maaf anda belum login');
   window.location='../../index.html'</script>";
 }
@@ -59,24 +60,27 @@ if ($_SESSION['username'] == "") {
           <span>Dashboard</span>
         </a>
       </li>
-      <li class="nav-item active">
+      <div id="addquery">
+      <li class="nav-item active" id="query">
         <a class="nav-link" href="../menu_query/query_list.php">
           <i class="fas fa-fw fa-plus-square"></i>
           <span>Query</span>
         </a>
       </li>
+      </div>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fas fa-fw fa-folder"></i>
           <span>Report</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-          <?php
+        <?php
             $get_report = "select * from report";
              $sql_result = mssql_query($get_report);
              while ($data = mssql_fetch_assoc($sql_result)) {
+               
           ?>
-           <a href="../report/report.php?id=<?php echo $data['id'];?>&status=<?php echo $data['filter_date_status'];?>" id="payment" class="dropdown-item"><?php echo $data['name_report']; ?></a>
+          <a href="../report/report.php?id=<?php echo $data['id'];?>&status=<?php echo $data['filter_date_status'];?>" id="payment" class="dropdown-item"><?php echo $data['name_report']; ?></a>
              <?php $status = $data['id']; }?>
         </div>
       </li>
@@ -204,7 +208,7 @@ if ($_SESSION['username'] == "") {
 
   <!-- script php untuk chart -->
   <?php
-    $tx_harian = mssql_query("select DAY(order_date) as hari from sales.orders GROUP BY DAY(order_date)");
+    $tx_harian = mssql_query("select DAY(order_date) as hari from sales.orders GROUP BY DAY(order_date) ORDER BY DAY (order_date )");
     $hari = mssql_query("select COUNT(order_id) as tx_hari from sales.orders GROUP BY DAY(order_date)");
   ?>
   <script>
@@ -217,7 +221,7 @@ if ($_SESSION['username'] == "") {
       var myLineChart = new Chart(ctx, {
         type: 'line',
         data: {
-          labels: [<?php while ($b = mssql_fetch_assoc($hari)) { echo '"' . $b['hari'] . '",';}?>],
+          labels: [<?php while ($b = mssql_fetch_array($tx_harian)) { echo '"' . $b['hari'] . '",';}?>],
           datasets: [{
             label: "Transaksi",
             lineTension: 0.3,
@@ -230,7 +234,7 @@ if ($_SESSION['username'] == "") {
             pointHoverBackgroundColor: "rgba(2,117,216,1)",
             pointHitRadius: 50,
             pointBorderWidth: 2,
-            data: [<?php while ($b = mssql_fetch_assoc($tx_harian)) { echo '"' . $b['tx_hari'] . '",';}?>],
+            data: [<?php while ($p = mssql_fetch_array($hari)) { echo '"' . $p['tx_hari'] . '",';}?>],
           }],
         },
         options: {
@@ -249,7 +253,7 @@ if ($_SESSION['username'] == "") {
             yAxes: [{
               ticks: {
                 min: 0,
-                max: 1000,
+                max: 100,
                 maxTicksLimit: 10
               },
               gridLines: {
@@ -267,6 +271,19 @@ if ($_SESSION['username'] == "") {
           }
         }
       });
+  </script>
+  <script>
+    $(document).ready(function(){
+      var id = <?php echo $_SESSION['admin_status']; ?>;
+      var x = document.getElementById("addquery");
+      console.log(id);
+      if (id == 1) {
+        $("#query").show();
+      }else{
+        $("#query").hide();
+      }
+      
+    })
   </script>
 
 </body>

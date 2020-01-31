@@ -53,12 +53,14 @@ if (isset($_GET['id'])) {
           <span>Dashboard</span>
         </a>
       </li>
-      <li class="nav-item active">
+      <div id="addquery">
+      <li class="nav-item active" id="query">
         <a class="nav-link" href="../menu_query/query_list.php">
           <i class="fas fa-fw fa-plus-square"></i>
           <span>Query</span>
         </a>
       </li>
+      </div>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="../home/dashboard.php" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fas fa-fw fa-folder"></i>
@@ -203,9 +205,18 @@ if (isset($_GET['id'])) {
       
     })
     </script>
-    <script>
-      console.log(<?php echo $_SESSION['id']?>);
-      
-    </script>
+      <script>
+        $(document).ready(function(){
+          var id = <?php echo $_SESSION['admin_status']; ?>;
+          var x = document.getElementById("addquery");
+          console.log(id);
+          if (id == 1) {
+            $("#query").show();
+          }else{
+            $("#query").hide();
+          }
+          
+        })
+       </script>
 </body>
 </html>
